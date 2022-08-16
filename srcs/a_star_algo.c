@@ -162,11 +162,12 @@ t_stack	*get_walkable_tiles(char *map[], t_tile *current, t_tile *target)
 	ft_stackadd_bottom(possible_tiles, ft_newnode(tile_creator(current->x - 1,
 		current->y, current, current->cost + 1)));
 	ft_stackadd_bottom(possible_tiles, ft_newnode(tile_creator(current->x + 1,
-		current->y - 1, current, current->cost + 1)));
+		current->y, current, current->cost + 1)));
 	tmp = possible_tiles->top;
 	while (tmp)
 	{
 		set_distance(tmp->content, target->x, target->y);
+		set_cost_distance(tmp->content);
 		if (ft_check_conditions(tmp->content, map))
 			ft_tiledischarge(possible_tiles, tmp);
 		tmp = tmp->next;
@@ -257,6 +258,8 @@ int	main(void)
 		walkable = walkable_tiles->top;
 		while (walkable)
 		{
+			printf("Walkabilly!\n");
+			tile_display(walkable->content);
 			//We have already visited this tile so we don't need to do so again!
 			if (ft_stack_any(visited_tiles, walkable, ft_tiles_equal))
 				continue ;
